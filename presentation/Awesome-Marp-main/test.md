@@ -496,7 +496,9 @@ $$\{\Phi_{t+1}, \Theta_{t+1}, f_{t+1}^{Sup}\} \leftarrow \{\Phi_t, \Theta_t, f_t
 - PAM在所有数据集上**显著优于**现有方法（PF, SML, IncCTR等）
 - 对Recall@5、NDCG@5等小K指标提升更显著
 - 说明PAM更精准地把冷启动物品推荐给真正感兴趣的用户
-- Yelp数据集上Recall@5提升 **64.51%**
+<p align="center">
+  <img src="https://github.com/shadowbringer1/hw_CS7316/raw/main/presentation/figure/fig1.jpg" width="750">
+</p>
 
 > 🔼 表明PAM能有效缓解长尾分布问题，并提升冷启动推荐质量
 
@@ -507,40 +509,60 @@ $$\{\Phi_{t+1}, \Theta_{t+1}, f_{t+1}^{Sup}\} \leftarrow \{\Phi_t, \Theta_t, f_t
 - **PAM-S**：仅加自监督模块
 - **PAM-A**：仅加数据增强模块
 - **PAM-F**：完整增强模块组合
+<p align="center">
+  <img src="https://github.com/shadowbringer1/hw_CS7316/raw/main/presentation/figure/fig2.jpg" width="750">
+</p>
 
 ## 任务个性化能力分析（RQ3）
 <!-- _class: navbar fixedtitleA -->
 <!-- _header: \ *引言* *背景知识* *方法介绍* **实验结果** *总结与反思*-->
 - 对比冷启动任务和热门任务在屏蔽不同embedding后的表示变化：
 
-🧊 冷启动任务：
-- 表示主要依赖**内容特征**，行为特征权重低
+<p align="center">
+  <img src="https://github.com/shadowbringer1/hw_CS7316/raw/main/presentation/figure/fig3.jpg" width="500">
+</p>
 
-🔥 热门任务：
-- 表示更依赖**行为特征**（如ID embedding）
+🧊 冷启动任务：表示主要依赖**内容特征**，行为特征权重低
 
-📊 表明：
-- PAM能为不同任务学习到**任务定制化的参数表示**，提升推荐精准度
+🔥 热门任务：表示更依赖**行为特征**（如ID embedding）
+
+
+> 🔼  表明PAM能为不同任务学习到**任务定制化的参数表示**，提升推荐精准度
 
 ## 超参数敏感性分析（RQ4）
-<!-- _class: navbar fixedtitleA -->
+<!-- _class: navbar fixedtitleA cols-2 -->
 <!-- _header: \ *引言* *背景知识* *方法介绍* **实验结果** *总结与反思*-->
+<div class=ldiv>
+
 - 冷启动任务权重设置范围需合适：
-  - 太低 ➝ 无法优化冷启动参数
-  - 太高 ➝ 损失热门信息，整体退化
+
+  - **太低** ➝ 无法优化冷启动参数
+  - **太高** ➝ 损失热门信息，整体退化
+
 - 自监督和数据增强模块的损失权重对性能稳定性影响小
+
 
 > 🔁 PAM参数设置具备良好鲁棒性，实际部署中易于调优
 
+</div>
+
+<div class=rimg>
+
+![#c](https://github.com/shadowbringer1/hw_CS7316/raw/main/presentation/figure/fig4.jpg)
+
+</div>
 
 ## 在线部署效果（RQ5）
 <!-- _class: navbar fixedtitleA -->
 <!-- _header: \ *引言* *背景知识* *方法介绍* **实验结果** *总结与反思*-->
 📈 在真实商业推荐系统中的A/B测试结果：
+<p align="center">
+  <img src="https://github.com/shadowbringer1/hw_CS7316/raw/main/presentation/figure/fig5.jpg" width="500">
+</p>
 
-- 推荐展示率（Show%）：+41.39%
-- 用户点赞率（LTR）：+60.45%
-- 评论率、收藏率也有显著提升
+- **推荐展示率（Show%）**：+41.39%
+- **用户点赞率（LTR）**：+60.45%
+- **评论率**、**收藏率**也有显著提升
 
 
 ## 5. 总结与反思
@@ -553,30 +575,25 @@ $$\{\Phi_{t+1}, \Theta_{t+1}, f_{t+1}^{Sup}\} \leftarrow \{\Phi_t, \Theta_t, f_t
 <!-- _class: navbar fixedtitleA -->
 <!-- _header: \ *引言* *背景知识* *方法介绍* *实验结果* **总结与反思**-->
 
-- 研究动机
+- **研究动机**
 
-  - 现有推荐方法难以应对流式推荐下的冷启动问题
-  - 特别是长尾分布使得冷门物品很难被有效推荐
+  - 现有推荐方法难以应对流式推荐下的冷启动问题；特别是长尾分布使得冷门物品很难被有效推荐。
 
-- 方法设计：PAM 框架
+- **方法设计：PAM 框架**
 
-  - 构造基于物品流行度的元学习任务
-  - 在任务间共享知识，在新任务中无需在线微调即可做推荐
+  - 构造基于物品流行度的元学习任务；在任务间共享知识，在新任务中无需在线微调即可做推荐。
+ 
+- **增强模块：Enhancer**
 
-- 增强模块：Enhancer
+  - 利用热门物品信息增强冷门物品表示；提高冷门物品被精准推荐的概率。
 
-  - 利用热门物品信息增强冷门物品表示
-  - 提高冷门物品被精准推荐的概率
+- **实验验证与部署成效**
 
-- 实验验证与部署成效
+  - 在多个数据集上 Recall@5、NDCG@5 均显著提升；在真实系统部署中表现出良好冷启动适应性。
 
-  - 在多个数据集上 Recall@5、NDCG@5 均显著提升
-  - 在真实系统部署中表现出良好冷启动适应性
+- **未来工作方向**
 
-- 未来工作方向
-
-  - 探索更高效的在线冷启动优化方案  
-  - 提升模型在大规模场景下的 泛化能力与实用性
+  - 探索更高效的在线冷启动优化方案；提升模型在大规模场景下的 泛化能力与实用性。
 
 ---
 
